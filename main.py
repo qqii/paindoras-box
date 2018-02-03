@@ -67,37 +67,20 @@ class Paindora:
 # 1 is label for shaking
 # data is stored as (1,2) numpy array. 1st element array of training data
 # second element is data.
-def training_shaking():
-    training_data_temp = []
+def training_motion(training_type):
+    old_data = numpy.load("training_data_"+ training_type + ".npz")
+    training_data_temp = old_data.tolist()
     try:
         while True:
            x, y, z = motion.accelerometer()
            training_data_temp.append(numpy.array([x,y,z]))
     except KeyboardInterrupt:
-        length = len(training_data_temp)
-        labels = numpy.full((1, length), 1)
         training_data = numpy.array(training_data_temp)
-        final_data = numpy.array([training_data, labels])
-        numpy.save("training_data_shaking", final_data)
-
-def training_still():
-    training_data_temp = []
-    try:
-        while True:
-           x, y, z = motion.accelerometer()
-           training_data_temp.append(numpy.array([x,y,z]))
-    except KeyboardInterrupt:
-        length = len(training_data_temp)
-        labels = numpy.full((1, length), 0)
-        training_data = numpy.array(training_data_temp)
-        final_data = numpy.array([training_data, labels])
-        numpy.save("training_data_still", final_data)
+        numpy.save("training_data_" + training_type, training_data)
 
 def main(args):
-    if args[1] == "shaking":
-        training_shaking()
-    elif args[1] == "still":
-        training_still()
+    if args[1] == "training":
+        training_shaking(args[2])
     else:
         print("Incorrect inputs")
     #paindora = Paindora()

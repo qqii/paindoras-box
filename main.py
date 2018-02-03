@@ -48,12 +48,12 @@ class Paindora:
         x, y, z = motion.accelerometer()
         absolute_value = numpy.linalg.norm(numpy.absolute([x,y,z]))
         print(str(absolute_value))
-       if absolute_value > location_change_ps:
-           # print("I have no mouth and I must scream because I'm moving too fast")
-           self.shaking = True
-       else:
-           self.shaking = False
-           # print("I am not screaming because of movement")
+        if absolute_value > location_change_ps:
+            # print("I have no mouth and I must scream because I'm moving too fast")
+            self.shaking = True
+        else:
+            self.shaking = False
+            # print("I am not screaming because of movement")
 
     def scream(self):
         pass

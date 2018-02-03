@@ -27,6 +27,8 @@ light_threshold = 10
 #     leds.off()
 #     out.close()
 
+def scream():
+    pass
 
 #takes a list of x,y,z vectors of acceleration and calculates magnitude
 # absolute :: [Int] -> Int
@@ -38,22 +40,21 @@ def check_light():
     else:
         print("I am not screaming because of light")
 
-
-
 #takes a list of x,y,z vectors of acceleration and calculates magnitude
 # absolute :: [Int] -> Int
 def check_movement():
     x, y, z = motion.accelerometer()
     absolute_value = numpy.linalg.norm([x,y,z])
     print(str(absolute_value))
-    if absolute_value > location_change_ps:
-        print("I have no mouth and I must scream because I'm moving too fast")
-    else:
-        print("I am not screaming because of movement")
+#    if absolute_value > location_change_ps:
+#        print("I have no mouth and I must scream because I'm moving too fast")
+#    else:
+#        print("I am not screaming because of movement")
 
 def main():
     while True:
-        check_light()
+        time.sleep(0.1)
+#        check_light()
         check_movement()
 
 if __name__ == "__main__":

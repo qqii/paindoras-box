@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import time
 import sys
+import os.path
 import numpy
 from sklearn.naive_bayes import GaussianNB
 import numpy.linalg
@@ -8,9 +9,6 @@ from envirophat import light, motion, weather, leds
 
 shaking = 1
 still = 0
-
-out = open('enviro.log', 'w')
-out.write('light\trgb\tmotion\theading\ttemp\tpress\n')
 
 location_change_ps = 5
 light_threshold = 10
@@ -63,24 +61,28 @@ class Paindora:
         pass
 
 
-
 # 1 is label for shaking
 # data is stored as (1,2) numpy array. 1st element array of training data
 # second element is data.
 def training_motion(training_type):
-    old_data = numpy.load("training_data_"+ training_type + ".npz")
-    training_data_temp = old_data.tolist()
+    if os.path.isfile("training_data_" + training_type + ".npz"):
+        old_data = numpy.load("training_data_" + training_type + ".npz")
+        training_data_temp = old_data.tolist()
+    else:
+        training_data_temp = []
     try:
         while True:
            x, y, z = motion.accelerometer()
            training_data_temp.append(numpy.array([x,y,z]))
+           absolute_value = numpy.linalg.norm(numpy.absolute([x,y,z]))
+           print(str(absolute_value))
     except KeyboardInterrupt:
         training_data = numpy.array(training_data_temp)
         numpy.save("training_data_" + training_type, training_data)
 
 def main(args):
     if args[1] == "training":
-        training_shaking(args[2])
+        training_motion(args[2])
     else:
         print("Incorrect inputs")
     #paindora = Paindora()
@@ -90,5 +92,4 @@ def main(args):
     #     paindora.check_shaking()
 
 if __name__ == "__main__":
-    args = sys.argv
-    main(args)
+    main(sys.argv)

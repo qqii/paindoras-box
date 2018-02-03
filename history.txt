@@ -1,0 +1,50 @@
+    1  python3
+    2  nano .gitconfig
+    3  git config -l
+    4  ls
+    5  git clone https://github.com/qqii/paindoras-box
+    6  cd paindoras-box/
+    7  s
+    8  ls
+    9  git checkout sound
+   10  ls
+   11  omxplayer tone.wav
+   12  aplay -l
+   13  history
+   14  historl
+   15  aply -l
+   16  aplay -l
+   17  pavucontrol
+   18  sudo apt-get install pavucontrol
+   19  ifconfig
+   20  iwconfig
+   21  ifconfig -a
+   22  netctl
+   23  sudo mkdir -p /etc/ssl/certs 
+   24  wget -nv --output-document=/etc/ssl/certs/UoB-Net-CA.pem https://www.wireless.bris.ac.uk/certs/eaproot/uob-net-ca.pem       
+   25  sudo wget -nv --output-document=/etc/ssl/certs/UoB-Net-CA.pem https://www.wireless.bris.ac.uk/certs/eaproot/uob-net-ca.pem       
+   26  vim wpa_supplicant.conf
+   27  wpa_supplicant-B -i wlan0 -c wpa_supplicant.conf 
+   28  wpa_supplicant -B -i wlan0 -c wpa_supplicant.conf 
+   29  sudo wpa_supplicant -B -i wlan0 -c wpa_supplicant.conf 
+   30  ifconfig
+   31  sudo wpa_supplicant -B -i wlan0 -c wpa_supplicant.conf 
+   32  cat wpa_supplicant.conf 
+   33  iw list
+   34  cat wpa_supplicant.conf 
+   35  sudo wpa_supplicant -B -i wlan0 -c wpa_supplicant.conf 
+   36  sudo iwlist wlan0 scan
+   37  sudo dhcpcd
+   38  ping 88.8.8
+   39  ping 8.8.8.8
+   40  sudo wpa_supplicant -B -i wlan0 -c wpa_supplicant.conf 
+   41  ping 8.8.4.4
+   42  ping www.google.com
+   43  ifconfig
+   44  sudo killall -9 dhcpcd wpa_supplicant
+   45  sudo systemctl stop NetworkManager
+   46  sudo wpa_supplicant -B -i wlan0 -c wpa_supplicant.conf 
+   47  sudo dhcpcd
+   48  ping 8.8.8.8
+   49  history
+   50  history > history.txt

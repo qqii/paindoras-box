@@ -1,8 +1,10 @@
 #!/usr/bin/python3
+
 import time
 import numpy
 import numpy.linalg
 import twitter
+from pygame import mixer
 try:
     on_pi = True
     from envirophat import light, motion, weather, leds
@@ -26,9 +28,6 @@ except ImportError:
     light = FakeEnvirophat()
     motion = light
     
-out = open('enviro.log', 'w')
-out.write('light\trgb\tmotion\theading\ttemp\tpress\n')
-
 location_change_ps = 5
 light_threshold = 10
 
@@ -51,11 +50,12 @@ light_threshold = 10
 
 
 class Paindora:
-    def __init__(self, api):  
+    def __init__(self, api, mixer):  
         self.shaking = False
         self.lit = False
         self.rotated = False
         self.api = api
+        self.mixer = mixer
 
     def check_light(self):
         light_intensity = light.light()
@@ -79,7 +79,7 @@ class Paindora:
             # print("I am not screaming because of movement")
 
     def scream(self):
-        pass
+        mixer.music.play()
         
     def tweet(self, message):
         status = self.api.PostUpdate(message)
@@ -94,7 +94,12 @@ api = twitter.Api(
     consumer_secret=secret["consumer_secret"], 
     access_token_key=secret["access_token_key"], 
     access_token_secret=secret["access_token_secret"])
-paindora = Paindora(api)
+
+# sound
+mixer.init()
+pygame.mixer.music.load("sound/tone.wav")
+print("Playing tone (30s)")
+paindora = Paindora(api, mixer)
 
 def main():
     while True:

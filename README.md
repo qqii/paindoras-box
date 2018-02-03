@@ -12,6 +12,8 @@ TODO
 
 TODO (hw)
 
+sudo apt-get install python3-envirophat
+
 ### Installing
 
 TODO

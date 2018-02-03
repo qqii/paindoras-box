@@ -76,11 +76,14 @@ def motion_classifier():
     # print(str(training_data.shape))
     # print(str(training_labels.shape))
     classifier.fit(training_data, training_labels)
-    # misclassifications = classifier.predict(training_data)
-    test_array = numpy.array([0,0,1])
-    new_array = test_array.reshape(1, -1)
-    print(str(classifier.predict(new_array)))
-    # print("Number of mislabeled points out of a total %d points : %d" % (training_data.shape[0], (training_labels != misclassifications).sum()))
+    misclassifications = classifier.predict(training_data)
+    # print(str(training_data.shape[0]))
+    # print(str(misclassifications.shape))
+    # test_array = numpy.array([0,0,1])
+    # new_array = test_array.reshape(1, -1)
+    # print(str(classifier.predict(new_array)))
+    # print(training_labels.T)
+    print("Number of mislabeled points out of a total %d points : %d" % (training_data.shape[0], (training_labels.T != numpy.array(misclassifications)).sum()))
 
 def training_motion(training_type):
     if os.path.isfile("training_data_" + training_type + ".npy"):

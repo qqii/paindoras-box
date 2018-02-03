@@ -1,8 +1,13 @@
 #!/usr/bin/python3
 import time
+import sys
 import numpy
+from sklearn.naive_bayes import GaussianNB
 import numpy.linalg
 from envirophat import light, motion, weather, leds
+
+shaking = 1
+still = 0
 
 out = open('enviro.log', 'w')
 out.write('light\trgb\tmotion\theading\ttemp\tpress\n')
@@ -26,7 +31,6 @@ light_threshold = 10
 # except KeyboardInterrupt:
 #     leds.off()
 #     out.close()
-
 
 class Paindora:
     def __init__(self):
@@ -59,12 +63,49 @@ class Paindora:
         pass
 
 
-def main():
-    paindora = Paindora()
-    while True:
-        time.sleep(0.1)
-        paindora.check_light()
-        paindora.check_shaking()
+
+# 1 is label for shaking
+# data is stored as (1,2) numpy array. 1st element array of training data
+# second element is data.
+def training_shaking():
+    training_data_temp = []
+    try:
+        while True:
+           x, y, z = motion.accelerometer()
+           training_data_temp.append(numpy.array([x,y,z]))
+    except KeyboardInterrupt:
+        length = len(training_data_temp)
+        labels = numpy.full((1, length), 1)
+        training_data = numpy.array(training_data_temp)
+        final_data = numpy.array([training_data, labels])
+        numpy.save("training_data_shaking", final_data)
+
+def training_still():
+    training_data_temp = []
+    try:
+        while True:
+           x, y, z = motion.accelerometer()
+           training_data_temp.append(numpy.array([x,y,z]))
+    except KeyboardInterrupt:
+        length = len(training_data_temp)
+        labels = numpy.full((1, length), 0)
+        training_data = numpy.array(training_data_temp)
+        final_data = numpy.array([training_data, labels])
+        numpy.save("training_data_still", final_data)
+
+def main(args):
+    if args[0] == "shaking":
+        training_shaking()
+    elif args[0] == "still":
+        training_still()
+    else:
+        print("Incorrect inputs")
+    #paindora = Paindora()
+    # while True:
+    #     time.sleep(0.1)
+    #     paindora.check_light()
+    #     paindora.check_shaking()
 
 if __name__ == "__main__":
-    main()
+    args = sys.argv
+    main(args)

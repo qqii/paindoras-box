@@ -136,7 +136,9 @@ def main(args):
         motion_classifier()
     elif args[1] == "detect":
         classifier = motion_classifier()
-        paindora = Paindora(classifier)
+        api = twitter_setup()
+        mixer = sound_setup
+        paindora = Paindora(api, mixer, classifier)
 
         while True:
             time.sleep(0.1)

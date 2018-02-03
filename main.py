@@ -5,7 +5,7 @@ import os.path
 import numpy
 from sklearn.naive_bayes import GaussianNB
 import numpy.linalg
-# from envirophat import light, motion, weather, leds
+from envirophat import light, motion, weather, leds
 
 shaking = 1
 still = 0
@@ -31,9 +31,10 @@ light_threshold = 10
 #     out.close()
 
 class Paindora:
-    def __init__(self):
+    def __init__(self, classifier):
         self.shaking = False
         self.lit = False
+        self.classifier = classifier
         self.rotated = False
 
     def check_light(self):
@@ -48,9 +49,11 @@ class Paindora:
 
     def check_shaking(self):
         x, y, z = motion.accelerometer()
-        absolute_value = numpy.linalg.norm(numpy.absolute([x,y,z]))
-        print(str(absolute_value))
-        if absolute_value > location_change_ps:
+#        absolute_value = numpy.linalg.norm(numpy.absolute([x,y,z]))
+        test_array = numpy.array([x,y,z])
+        topredict = test_array.reshape(1, -1)
+        print(self.classifier.predict(topredict), x, y, z)
+        if self.classifier.predict(topredict) == [1]:
             # print("I have no mouth and I must scream because I'm moving too fast")
             self.shaking = True
         else:
@@ -72,18 +75,10 @@ def motion_classifier():
     training_data = numpy.concatenate((shaking_data, still_data), axis=0)
     training_labels = numpy.concatenate((shaking_labels, still_labels), axis=0)
     #1 is class label for shaking, 2 is class label for still
+
     classifier = GaussianNB(priors=[0.4, 0.6])
-    # print(str(training_data.shape))
-    # print(str(training_labels.shape))
     classifier.fit(training_data, training_labels)
-    misclassifications = classifier.predict(training_data)
-    # print(str(training_data.shape[0]))
-    # print(str(misclassifications.shape))
-    # test_array = numpy.array([0,0,1])
-    # new_array = test_array.reshape(1, -1)
-    # print(str(classifier.predict(new_array)))
-    # print(training_labels.T)
-    print("Number of mislabeled points out of a total %d points : %d" % (training_data.shape[0], (training_labels.T != numpy.array(misclassifications)).sum()))
+    return classifier
 
 def training_motion(training_type):
     if os.path.isfile("training_data_" + training_type + ".npy"):
@@ -107,14 +102,12 @@ def main(args):
     elif args[1] == "classify":
         motion_classifier()
     elif args[1] == "detect":
-        paindora = Paindora()
-        paindora.check_shaking()
+        classifier = motion_classifier()
+        paindora = Paindora(classifier)
 
-    #paindora = Paindora()
-    # while True:
-    #     time.sleep(0.1)
-    #     paindora.check_light()
-    #     paindora.check_shaking()
+        while True:
+            time.sleep(0.1)
+            paindora.check_shaking()
 
 if __name__ == "__main__":
     main(sys.argv)

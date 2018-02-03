@@ -52,8 +52,9 @@ def check_movement():
         print("I am not screaming because of movement")
 
 def main():
-    check_light()
-    check_movement()
+    while True:
+        check_light()
+        check_movement()
 
 if __name__ == "__main__":
     main()

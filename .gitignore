@@ -12,7 +12,7 @@ dist
 build
 .DS_Store
 test_project
-Pipfile.lock
+/* Pipfile.lock */
 /.vscode/
 .idea
 

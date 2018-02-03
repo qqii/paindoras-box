@@ -29,7 +29,7 @@ except ImportError:
     motion = light
     
 location_change_ps = 5
-light_threshold = 10
+light_threshold = 100
 
 # try:
 #     while True:
@@ -60,9 +60,9 @@ class Paindora:
     def check_light(self):
         light_intensity = light.light()
         print("Light intensity is " + str(light_intensity))
-        if light_intensity > location_change_ps:
+        if light_intensity > light_threshold:
             # print("I have no mouth and I must scream because its too light")
-            scream()
+            self.scream()
             self.lit = True
         else:
             # print("I am not screaming because of light")

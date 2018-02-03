@@ -60,10 +60,23 @@ class Paindora:
     def scream(self):
         pass
 
+def motion_classifier():
+    shaking_data = numpy.load("training_data_shaking.npz")
+    shaking_length = numpy.ndarray.size(shaking_data)
+    shaking_labels = numpy.full((1,shaking_length), 1)
 
-# 1 is label for shaking
-# data is stored as (1,2) numpy array. 1st element array of training data
-# second element is data.
+    still_data = numpy.load("training_data_still.npz")
+    still_length = numpy.ndarray.size(still_data)
+    still_labels = numpy.full((1,still_length), 2)
+
+    training_data = numpy.concatenate(shaking_data, still_data)
+    training_labels = numpy.concatenate(shaking_labels, still_labels)
+    #1 is class label for shaking, 2 is class label for still
+    classifier = GaussianNB(priors=[0.4, 0.6])
+    classifier.fit(training_data, training_labels)
+    misclassifications = classifier.predict(training_data)
+    print("Number of mislabeled points out of a total %d points : %d" % (training_data.shape[0], (training_labels != misclassifications).sum()))
+
 def training_motion(training_type):
     if os.path.isfile("training_data_" + training_type + ".npz"):
         old_data = numpy.load("training_data_" + training_type + ".npz")
@@ -84,7 +97,7 @@ def main(args):
     if args[1] == "training":
         training_motion(args[2])
     else:
-        print("Incorrect inputs")
+        motion_classifier()
     #paindora = Paindora()
     # while True:
     #     time.sleep(0.1)

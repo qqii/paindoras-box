@@ -62,6 +62,7 @@ class Paindora:
         print("Light intensity is " + str(light_intensity))
         if light_intensity > location_change_ps:
             # print("I have no mouth and I must scream because its too light")
+            scream()
             self.lit = True
         else:
             # print("I am not screaming because of light")
@@ -97,7 +98,7 @@ api = twitter.Api(
 
 # sound
 mixer.init()
-pygame.mixer.music.load("sound/tone.wav")
+mixer.music.load("sound/tone.wav")
 print("Playing tone (30s)")
 paindora = Paindora(api, mixer)
 

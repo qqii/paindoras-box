@@ -2,7 +2,27 @@
 import time
 import numpy
 import numpy.linalg
-from envirophat import light, motion, weather, leds
+import twitter
+try:
+    from envirophat import light, motion, weather, leds
+except ImportError:
+    class FakeEnvirophat:
+        def __init__(self):
+            self._light = 0
+            self._accelerometer = (0, 0, 0)
+        
+        def light(self, light=None):
+            if light != None:
+                self._light = light
+            return self._light;
+          
+        def accelerometer(self, accelerometer=None):
+            if accelerometer != None:
+                self._accelerometer = accelerometer
+            return self._accelerometer
+    
+    light = FakeEnvirophat()
+    motion = light
 
 out = open('enviro.log', 'w')
 out.write('light\trgb\tmotion\theading\ttemp\tpress\n')
@@ -29,10 +49,11 @@ light_threshold = 10
 
 
 class Paindora:
-    def __init__(self):
+    def __init__(self, api):  
         self.shaking = False
         self.lit = False
         self.rotated = False
+        self.api = api
 
     def check_light(self):
         light_intensity = light.light()
@@ -57,10 +78,23 @@ class Paindora:
 
     def scream(self):
         pass
+        
+    def tweet(self, message):
+        status = self.api.PostUpdate(message)
+        print(status)
 
+# get api
+secret = {}
+# consumer_key = "...", etc
+exec(open("secret.py").read(), secret)
+api = twitter.Api(
+    consumer_key=secret["consumer_key"], 
+    consumer_secret=secret["consumer_secret"], 
+    access_token_key=secret["access_token_key"], 
+    access_token_secret=secret["access_token_secret"])
+paindora = Paindora(api)
 
 def main():
-    paindora = Paindora()
     while True:
         time.sleep(0.1)
         paindora.check_light()

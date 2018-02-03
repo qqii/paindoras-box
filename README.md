@@ -13,6 +13,8 @@ TODO
 TODO (hw)
 
 sudo apt-get install python3-envirophat
+sudo apt-get install python3-numpy
+pip3 install python-twitter
 
 ### Installing
 

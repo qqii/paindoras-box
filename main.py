@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import time
 import numpy
+import numpy.linalg
 from envirophat import light, motion, weather, leds
 
 out = open('enviro.log', 'w')
@@ -34,18 +35,25 @@ def check_light():
     print("Light intensity is " + str(light_intensity))
     if light_intensity > location_change_ps:
         print("I have no mouth and I must scream because its too light")
+    else:
+        print("I am not screaming because of light")
 
 
 
 #takes a list of x,y,z vectors of acceleration and calculates magnitude
 # absolute :: [Int] -> Int
 def check_movement():
-    x, y, z = motion.acceleration()
-    absolute_value = numpy.absolute([x,y,z])
+    x, y, z = motion.accelerometer()
+    absolute_value = numpy.linalg.norm([x,y,z])
+    print(str(absolute_value))
     if absolute_value > location_change_ps:
         print("I have no mouth and I must scream because I'm moving too fast")
+    else:
+        print("I am not screaming because of movement")
 
-
+def main():
+    check_light()
+    check_movement()
 
 if __name__ == "__main__":
     main()

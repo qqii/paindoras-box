@@ -27,35 +27,44 @@ light_threshold = 10
 #     leds.off()
 #     out.close()
 
-def scream():
-    pass
 
-#takes a list of x,y,z vectors of acceleration and calculates magnitude
-# absolute :: [Int] -> Int
-def check_light():
-    light_intensity = light.light()
-    print("Light intensity is " + str(light_intensity))
-    if light_intensity > location_change_ps:
-        print("I have no mouth and I must scream because its too light")
-    else:
-        print("I am not screaming because of light")
+class Paindora:
+    def __init__(self):
+        self.shaking = False
+        self.lit = False
+        self.rotated = False
 
-#takes a list of x,y,z vectors of acceleration and calculates magnitude
-# absolute :: [Int] -> Int
-def check_movement():
-    x, y, z = motion.accelerometer()
-    absolute_value = numpy.linalg.norm([x,y,z])
-    print(str(absolute_value))
-#    if absolute_value > location_change_ps:
-#        print("I have no mouth and I must scream because I'm moving too fast")
-#    else:
-#        print("I am not screaming because of movement")
+    def check_light(self):
+        light_intensity = light.light()
+        print("Light intensity is " + str(light_intensity))
+        if light_intensity > location_change_ps:
+            # print("I have no mouth and I must scream because its too light")
+            self.lit = True
+        else:
+            # print("I am not screaming because of light")
+            self.lit = False
+
+    def check_shaking(self):
+        x, y, z = motion.accelerometer()
+        absolute_value = numpy.linalg.norm(numpy.absolute([x,y,z]))
+        print(str(absolute_value))
+       if absolute_value > location_change_ps:
+           # print("I have no mouth and I must scream because I'm moving too fast")
+           self.shaking = True
+       else:
+           self.shaking = False
+           # print("I am not screaming because of movement")
+
+    def scream(self):
+        pass
+
 
 def main():
+    paindora = Paindora()
     while True:
         time.sleep(0.1)
-#        check_light()
-        check_movement()
+        paindora.check_light()
+        paindora.check_shaking()
 
 if __name__ == "__main__":
     main()

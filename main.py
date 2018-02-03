@@ -9,6 +9,8 @@ import numpy.linalg
 import twitter
 from pygame import mixer
 
+light_threshold = 100
+
 try:
     on_pi = True
     from envirophat import light, motion, weather, leds
@@ -31,11 +33,6 @@ except ImportError:
 
     light = FakeEnvirophat()
     motion = light
-
-
-shaking = 1
-still = 0
-
 
 class Paindora:
     def __init__(self, api, mixer, classifier):
@@ -66,12 +63,15 @@ class Paindora:
         if self.classifier.predict(topredict) == [1]:
             # print("I have no mouth and I must scream because I'm moving too fast")
             self.shaking = True
+            self.scream()
         else:
             self.shaking = False
+#            self.mixer.music.stop()
             # print("I am not screaming because of movement")
 
     def scream(self):
-        mixer.music.play()
+        if not self.mixer.music.get_busy():
+            mixer.music.play()
 
     def tweet(self, message):
         status = self.api.PostUpdate(message)
@@ -93,6 +93,7 @@ def twitter_setup():
 def sound_setup():
     # sound
     mixer.init()
+    mixer.music.set_volume(0.1)
     mixer.music.load("sound/tone.wav")
     return mixer
 
@@ -109,7 +110,7 @@ def motion_classifier():
     training_labels = numpy.concatenate((shaking_labels, still_labels), axis=0)
     #1 is class label for shaking, 2 is class label for still
 
-    classifier = GaussianNB(priors=[0.4, 0.6])
+    classifier = GaussianNB(priors=[0.1, 0.9])
     classifier.fit(training_data, training_labels)
     return classifier
 
@@ -137,12 +138,13 @@ def main(args):
     elif args[1] == "detect":
         classifier = motion_classifier()
         api = twitter_setup()
-        mixer = sound_setup
+        mixer = sound_setup()
         paindora = Paindora(api, mixer, classifier)
 
         while True:
             time.sleep(0.1)
             paindora.check_shaking()
+            paindora.check_light()
 
 if __name__ == "__main__":
     if on_pi:

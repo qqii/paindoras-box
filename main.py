@@ -4,8 +4,10 @@ import numpy
 import numpy.linalg
 import twitter
 try:
+    on_pi = True
     from envirophat import light, motion, weather, leds
 except ImportError:
+    on_pi = False
     class FakeEnvirophat:
         def __init__(self):
             self._light = 0
@@ -23,7 +25,7 @@ except ImportError:
     
     light = FakeEnvirophat()
     motion = light
-
+    
 out = open('enviro.log', 'w')
 out.write('light\trgb\tmotion\theading\ttemp\tpress\n')
 
@@ -101,4 +103,7 @@ def main():
         paindora.check_shaking()
 
 if __name__ == "__main__":
-    main()
+    if on_pi:
+        main()
+    else:
+        print("TODO: impliment testing framework here")

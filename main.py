@@ -5,7 +5,7 @@ import os.path
 import numpy
 from sklearn.naive_bayes import GaussianNB
 import numpy.linalg
-from envirophat import light, motion, weather, leds
+# from envirophat import light, motion, weather, leds
 
 shaking = 1
 still = 0
@@ -61,25 +61,27 @@ class Paindora:
         pass
 
 def motion_classifier():
-    shaking_data = numpy.load("training_data_shaking.npz")
-    shaking_length = numpy.ndarray.size(shaking_data)
-    shaking_labels = numpy.full((1,shaking_length), 1)
+    shaking_data = numpy.load("training_data_shaking.npy")
+    shaking_length = shaking_data.shape[0]
+    shaking_labels = numpy.full((shaking_length, 1), 1)
 
-    still_data = numpy.load("training_data_still.npz")
-    still_length = numpy.ndarray.size(still_data)
-    still_labels = numpy.full((1,still_length), 2)
+    still_data = numpy.load("training_data_still.npy")
+    still_length = still_data.shape[0]
+    still_labels = numpy.full((still_length, 1), 2)
 
-    training_data = numpy.concatenate(shaking_data, still_data)
-    training_labels = numpy.concatenate(shaking_labels, still_labels)
+    training_data = numpy.concatenate((shaking_data, still_data), axis=0)
+    training_labels = numpy.concatenate((shaking_labels, still_labels), axis=0)
     #1 is class label for shaking, 2 is class label for still
     classifier = GaussianNB(priors=[0.4, 0.6])
+    # print(str(training_data.shape))
+    # print(str(training_labels.shape))
     classifier.fit(training_data, training_labels)
     misclassifications = classifier.predict(training_data)
     print("Number of mislabeled points out of a total %d points : %d" % (training_data.shape[0], (training_labels != misclassifications).sum()))
 
 def training_motion(training_type):
-    if os.path.isfile("training_data_" + training_type + ".npz"):
-        old_data = numpy.load("training_data_" + training_type + ".npz")
+    if os.path.isfile("training_data_" + training_type + ".npy"):
+        old_data = numpy.load("training_data_" + training_type + ".npy")
         training_data_temp = old_data.tolist()
     else:
         training_data_temp = []
@@ -96,8 +98,12 @@ def training_motion(training_type):
 def main(args):
     if args[1] == "training":
         training_motion(args[2])
-    else:
+    elif args[1] == "classify":
         motion_classifier()
+    elif args[1] == "detect":
+        paindora = Paindora()
+        paindora.check_shaking()
+
     #paindora = Paindora()
     # while True:
     #     time.sleep(0.1)
@@ -106,3 +112,5 @@ def main(args):
 
 if __name__ == "__main__":
     main(sys.argv)
+
+

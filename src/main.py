@@ -30,10 +30,12 @@ class Paindora:
                 temp_array = numpy.array([x,y,z])
 
                 jerk = classifier.calculate_jerk(temp_array, self.previous_accel, delay)
-
+                jerk = jerk.reshape(1, -1)
+                print(self.classifier.classify(jerk))
                 if self.classifier.classify(jerk) == [1]:
                     pain = True
-                print("Pain after motion is", pain)
+                elif self.classifier.classify(jerk) == [3]:
+                    pain = True
                 if pain:
                     self.screamer.scream()
                     #self.shouter.shout("I'm in pain")

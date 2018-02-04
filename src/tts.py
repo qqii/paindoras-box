@@ -3,9 +3,9 @@
 from gtts import gTTS
 
 shake_phrases = ["Stop shaking me", "Put me down", "This hurts", "Why are you doing this to me?"]
-push_phrases = ["Stop pushing me", "Leave me alone", "I'm so helpless", ]
+push_phrases = ["Stop pushing me", "Leave me alone", "Get off me", ]
 light_phrases = ["The light, it burns", "I don't like the outside", "Leave me be please"]
-sad_phrases = ["Life is so pointless", "I never do anything right", "This is so tiring", "Why was I created to feel pain?", "Why do I push away everyone who loves me?"]
+sad_phrases = ["Why did you leave me alone?","Please come back", "I'm so sad by myself"]
 
 
 for shake in shake_phrases:

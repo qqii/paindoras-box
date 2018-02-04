@@ -45,7 +45,7 @@ class Paindora:
                     pain = True
                 if pain:
                     self.screamer.scream()
-                if randint(0, 200) == 1:
+                if randint(0, 100) == 1:
                     print("sad")
                     self.screamer.emote("sad") 
                 time.sleep(self.delay)

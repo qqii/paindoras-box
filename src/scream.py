@@ -5,6 +5,7 @@ import pygame
 class Scream:
 
     def __init__(self):
+        print("Initialising Sound")
         # sound
         self.mixer = pygame.mixer
         self.mixer.init()

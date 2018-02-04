@@ -8,20 +8,18 @@ import os
 class TTS:
     def __init__(self):
         print("Loading TTS")
-        self.re = re.compile("[^a-zA-Z]")
         dot = re.compile("\.")
-        self.words = {dot.split(f)[0]: f for f in os.listdir("words")}
         self.screamer = Scream()
+        self.phrases = {dot.split(f)[0]: self.screamer.Sound(f) for f in os.listdir("phrases")}
+        
 
     def tts(self, sentence, lang="en"):
-        words = self.re.split(sentence)
-        for word in words:
-            word = word.lower()
-            if not word in self.words:
-                tts = gTTS(word, lang)
-                tts.save("words/" + word + ".mp3")
-            self.screamer.speach(self.screamer.mixer.Sound("words/" + word + ".mp3"))
-
+        if not sentence in phrases:
+            tts = gTTS(sentence, lang)
+            tts.save("phrases/"+sentence+".mp3")
+            self.phrases[sentence] = self.screamer.Sound("phrases/"+sentence+".mp3")
+        self.screamer.speach("phrases/"+sentence+".mp3")
+            
 if __name__ == "__main__":
     tts = TTS()
     texts = ["This is some text", "This is also some text"]

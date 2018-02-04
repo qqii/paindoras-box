@@ -7,6 +7,7 @@ from classifier import Classifier
 from sensors import Sensors
 
 import time
+from random import randint
 import numpy
 
 class Paindora:
@@ -25,21 +26,25 @@ class Paindora:
                 light = self.sensors.light()
 
                 pain = False
-                pain |= light > self.classifier.light_threshold
-                print("Pain after light is", pain)
+                if light > self.classifier.light_threshold:
+                    self.screamer.emote("light")
+                    pain = True
+
                 temp_array = numpy.array([x,y,z])
 
                 jerk = classifier.calculate_jerk(temp_array, self.previous_accel, delay)
                 jerk = jerk.reshape(1, -1)
                 print(self.classifier.classify(jerk))
                 if self.classifier.classify(jerk) == [1]:
+                    self.screamer.emote("shake")
                     pain = True
                 elif self.classifier.classify(jerk) == [3]:
+                    self.screamer.emote("push")
                     pain = True
                 if pain:
                     self.screamer.scream()
-                    #self.shouter.shout("I'm in pain")
-
+                if randint(0, 300) == 1:
+                   self.screamer.emote("sad") 
                 time.sleep(self.delay)
         except KeyboardInterrupt:
             pass

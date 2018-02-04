@@ -2,6 +2,8 @@
 
 import pygame
 import os
+import re#eeeeeeeeeeeeeeeeee normies get out of my python script
+from shouter import Shouter
 from random import choice
 #light push sad shake
 
@@ -12,30 +14,15 @@ class Scream:
         # sound
         self.mixer = pygame.mixer
         self.mixer.init()
-        self.mixer.music.set_volume(0.1)
-        for d in ["light", "push", "sad", "shake"]:
-            for f in os.listdir(d):
-                self.mixer.music.load(d+"/"+f)
+        self.shouter = Shouter()
+        self.mixer.music.set_volume(0.3)
 
-    def light(self):
+    def emote(self, emotion):
         if not self.mixer.music.get_busy():
-            self.mixer.music.load("light/" + choice(os.listdir("light")))
+            f = choice(os.listdir(emotion))
+            self.mixer.music.load(emotion + "/" + f)
             self.mixer.music.play()
-
-    def push(self):
-        if not self.mixer.music.get_busy():
-            self.mixer.music.load("push/" + choice(os.listdir("push")))
-            self.mixer.music.play()
-
-    def sad(self):
-        if not self.mixer.music.get_busy():
-            self.mixer.music.load("sad/" + choice(os.listdir("sad")))
-            self.mixer.music.play()
-
-    def shake(self):
-        if not self.mixer.music.get_busy():
-            self.mixer.music.load("shake/" + choice(os.listdir("shake")))
-            self.mixer.music.play()
+            self.shouter.shout(re.split("\.", f)[0])
 
 
 
@@ -47,17 +34,4 @@ class Scream:
 if __name__ == "__main__":
     screamer = Scream()
     screamer.scream()
-    while screamer.mixer.music.get_busy():
-        continue
-    screamer.light()
-    while screamer.mixer.music.get_busy():
-        continue
-    screamer.push()
-    while screamer.mixer.music.get_busy():
-        continue
-    screamer.sad()
-    while screamer.mixer.music.get_busy():
-        continue
-    screamer.shake()
-    while screamer.mixer.music.get_busy():
-        continue
+

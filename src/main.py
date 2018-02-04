@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from scream import Scream
-from shout import Shout
+from shouter import Shouter
 #from let it all out import Let It All out
 from classifier import Classifier
 from sensors import Sensors
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     import sys
 
     screamer = Scream()
-    shouter = Shout()
+    shouter = Shouter()
     sensors = Sensors()
 
     try:

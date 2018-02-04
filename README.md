@@ -2,7 +2,7 @@
 
 A box that feels pain, a 24 hour hackathon project.
 
-* bees MAKE-ATHON 2018 
+* bees MAKE-ATHON 2018
 
 ## Getting Started
 
@@ -18,7 +18,9 @@ pip3 install python-twitter
 
 ### Installing
 
-TODO
+TODO:
+
+  - Check twitter timeouts
 
 ## Running the tests
 

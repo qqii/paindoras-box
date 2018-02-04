@@ -1,14 +1,19 @@
 #!/usr/bin/python3
 
 import os
+import time
 import numpy
+import numpy.linalg
 from sklearn.naive_bayes import GaussianNB
+from sensors import Sensors
+from envirophat import light, motion, weather, leds
 
 class Classifier:
     light_threshold = 100
 
-    def __init__(self):
+    def __init__(self, delay):
         self.classifier = None
+        self.delay = delay
 
     def train(self, training_type):
         if os.path.isfile("training_data_" + training_type + ".npy"):
@@ -17,11 +22,15 @@ class Classifier:
         else:
             training_data_temp = []
         try:
+            last_accel = numpy.array([float(0),float(0),float(0)])
             while True:
-               data = motion.accelerometer()
-               training_data_temp.append(numpy.array(acceleration))
-               absolute_value = numpy.linalg.norm(acceleration)
-               print("|{}| = {}".format(acceleration, absolute_value))
+                time.sleep(self.delay)
+                x,y,z = motion.accelerometer()
+                current_accel = numpy.array([x,y,z])
+                jerk = self.calculate_jerk(current_accel, last_accel, self.delay) 
+                training_data_temp.append(jerk)
+#                absolute_value = numpy.linalg.norm(acceleration)
+#                print("|{}| = {}".format(acceleration, absolute_value))
         except KeyboardInterrupt:
             training_data = numpy.array(training_data_temp)
             numpy.save("training_data_" + training_type, training_data)
@@ -37,7 +46,10 @@ class Classifier:
             still_labels = numpy.full((still_length, 1), 2)
 
             training_data = numpy.concatenate((shaking_data, still_data), axis=0)
+            print(training_data)
+            training_data = training_data[numpy.newaxis].T
             training_labels = numpy.concatenate((shaking_labels, still_labels), axis=0)
+            print(training_labels)
             #1 is class label for shaking, 2 is class label for still
 
             self.classifier = GaussianNB(priors=[0.1, 0.9])
@@ -45,10 +57,18 @@ class Classifier:
 
         return self.classifier.predict(data);
 
+    def calculate_jerk(self, accel1, accel2, delta_t):
+        delta_accel = numpy.subtract(accel1, accel2)
+        jerk = numpy.divide(delta_accel, delta_t)
+        value = numpy.linalg.norm(jerk) 
+        print(value)
+        return value
+
+
 if __name__ == "__main__":
     import sys
 
-    classifier = Classifier();
+    classifier = Classifier(0.1);
     try:
         if sys.argv[1].startswith("train"):
             if sys.argv[2].startswith("shak"):

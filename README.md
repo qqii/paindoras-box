@@ -8,9 +8,9 @@ A box that feels pain, a 24 hour hackathon project.
 
 ### Hardware
 
-* Raspberry Pi (made for Pi 3 Model B) and power source 
-* Enviro pHat
-* Speaker
+* [Raspberry Pi](https://www.raspberrypi.org/products/) (made for [Pi 3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/)) and [power source](https://www.amazon.co.uk/Cell-Phone-Portable-Power-Bank-Chargers/b?ie=UTF8&node=5520530031) 
+* [Enviro pHat](https://shop.pimoroni.com/products/enviro-phat)
+* [Speaker](https://www.amazon.co.uk/UKHONK-Portable-Loudspeaker-Multimedia-Notebook/dp/B006RBSHAQ/)
 
 1. [Souder the Enviro pHAT](https://learn.pimoroni.com/tutorial/sandyj/soldering-phats) 
 

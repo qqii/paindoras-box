@@ -15,16 +15,15 @@ class Scream:
         self.mixer = pygame.mixer
         self.mixer.init()
         self.shouter = Shouter()
-        self.mixer.music.set_volume(0.3)
+        self.mixer.music.set_volume(0.2)
 
     def emote(self, emotion):
         if not self.mixer.music.get_busy():
             f = choice(os.listdir(emotion))
+            print(os.listdir(emotion), f)
             self.mixer.music.load(emotion + "/" + f)
             self.mixer.music.play()
             self.shouter.shout(re.split("\.", f)[0])
-
-
 
     def scream(self, music="sound/tone.wav"):
         if not self.mixer.music.get_busy():

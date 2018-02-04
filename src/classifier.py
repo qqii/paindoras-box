@@ -9,7 +9,7 @@ from sensors import Sensors
 from envirophat import light, motion, weather, leds
 
 class Classifier:
-    light_threshold = 306 #100 #for darkness
+    light_threshold = 316 #100 #for darkness
 
     def __init__(self, delay):
         self.classifier = None

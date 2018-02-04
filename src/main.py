@@ -27,6 +27,7 @@ class Paindora:
 
                 pain = False
                 if light > self.classifier.light_threshold:
+                    print("light")
                     self.screamer.emote("light")
                     pain = True
 
@@ -34,17 +35,19 @@ class Paindora:
 
                 jerk = classifier.calculate_jerk(temp_array, self.previous_accel, delay)
                 jerk = jerk.reshape(1, -1)
-                print(self.classifier.classify(jerk))
                 if self.classifier.classify(jerk) == [1]:
+                    print("shake")
                     self.screamer.emote("shake")
                     pain = True
                 elif self.classifier.classify(jerk) == [3]:
+                    print("push")
                     self.screamer.emote("push")
                     pain = True
                 if pain:
                     self.screamer.scream()
-                if randint(0, 300) == 1:
-                   self.screamer.emote("sad") 
+                if randint(0, 200) == 1:
+                    print("sad")
+                    self.screamer.emote("sad") 
                 time.sleep(self.delay)
         except KeyboardInterrupt:
             pass

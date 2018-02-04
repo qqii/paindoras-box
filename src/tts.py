@@ -7,11 +7,11 @@ from scream import Scream
 
 def main():
     screamer = Scream()
-    tts = gTTS(text='Fuck Kenny', lang='en')
+    tts = gTTS(text='Hi cheery, will you be my friend?', lang='en')
     print(tts)
     tts.save("sound/good.mp3")
     screamer.scream(music="sound/good.mp3")
-    while screamer.mixer.get_busy():
+    while screamer.mixer.music.get_busy():
         continue
 
 

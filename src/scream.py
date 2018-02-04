@@ -11,8 +11,9 @@ class Scream:
         self.mixer.music.set_volume(0.1)
         self.mixer.music.load("sound/tone.wav")
 
-    def scream(self):
+    def scream(self, music="sound/tone.wav"):
         if not self.mixer.music.get_busy():
+            self.mixer.music.load(music)
             self.mixer.music.play()
 
 if __name__ == "__main__":

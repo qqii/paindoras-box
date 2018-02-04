@@ -5,7 +5,7 @@ import twitter
 
 class Shout:
 
-    def __init__():
+    def __init__(self):
         # get api
         secret = {}
         # consumer_key = "...", etc
@@ -18,8 +18,9 @@ class Shout:
 
     def shout(self, message):
         status = self.api.PostUpdate(message)
+        return status
 
 
 if __name__ == "__main__":
     shouter = Shout()
-    shouter.shout("I'm sick of being alone")
+    print(shouter.shout("I'm sick of being alone"))

@@ -6,14 +6,14 @@ class Sensors:
     def __init__(self):
         pass
 
-    def acceleration():
-        return motion.acceleration()
+    def acceleration(self):
+        return motion.accelerometer()
 
-    def light():
+    def light(self):
         return light.light()
 
 
-if __main__ == "__main__":
+if __name__ == "__main__":
     import sys
     import time
 

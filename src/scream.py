@@ -18,4 +18,5 @@ class Scream:
 if __name__ == "__main__":
     screamer = Scream()
     screamer.scream()
-
+    while screamer.mixer.music.get_busy():
+        continue

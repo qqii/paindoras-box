@@ -5,7 +5,7 @@ import numpy
 from sklearn.naive_bayes import GaussianNB
 
 class Classifier:
-    self.light_threshold = 100
+    light_threshold = 100
 
     def __init__(self):
         self.classifier = None
@@ -49,16 +49,21 @@ if __name__ == "__main__":
     import sys
 
     classifier = Classifier();
-
-    if sys.argv[1].startswith("train"):
-        if sys.argv[2].startswith("shak"):
-            classifier.train("shaking")
-        elif sys.argv[2].startswith("still"):
-            classifier.train("still")
-    elif sys.argv[1].startswith("classify"):
-        data = numpy.array(((sys.argv[2], sys.argv[3], sys.argv[4]),))
-        print(classifier.classify(data))
-    else:
+    try:
+        if sys.argv[1].startswith("train"):
+            if sys.argv[2].startswith("shak"):
+                classifier.train("shaking")
+            elif sys.argv[2].startswith("still"):
+                classifier.train("still")
+        elif sys.argv[1].startswith("classify"):
+            temp_array = numpy.array([float(sys.argv[2]), float(sys.argv[3]), float(sys.argv[4])])
+            data = temp_array.reshape(1, -1) 
+            print(classifier.classify(data))
+        else:
+           print("Usage:")
+           print("\t./{} train (shaking|still)".format(sys.argv[0]))
+           print("\t./{} classify x y z".format(sys.argv[0]))
+    except IndexError:
         print("Usage:")
         print("\t./{} train (shaking|still)".format(sys.argv[0]))
         print("\t./{} classify x y z".format(sys.argv[0]))

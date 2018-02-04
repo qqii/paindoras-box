@@ -20,16 +20,19 @@ class Paindora:
     def start(self):
         try:
             while True:
-                acceleration = self.sensors.acceleration()
+                x, y, z = self.sensors.acceleration()
                 light = self.sensors.light()
 
                 pain = False
                 pain |= light > self.classifier.light_threshold
-                pain |= self.classifier.classify(numpy.array((acceleration, )))
-
+                print("Pain after light is", pain)
+                temp_array = numpy.array([x,y,z]) 
+                if self.classifier.classify(temp_array.reshape(1, -1)) == [1]:
+                    pain = True
+                print("Pain after motion is", pain)
                 if pain:
                     self.screamer.scream()
-                    self.shouter.shout()
+                    #self.shouter.shout("I'm in pain")
 
                 time.sleep(self.delay)
         except KeyboardInterrupt:
@@ -38,14 +41,14 @@ class Paindora:
 if __name__ == "__main__":
     import sys
 
-    screamer = Screamer()
-    shouter = Shouter()
+    screamer = Scream()
+    shouter = Shout()
     classifier = Classifier()
     sensors = Sensors()
 
     try:
         delay = float(sys.argv[1])
-    except ValueError, IndexError:
+    except (ValueError, IndexError):
         delay = 0.1
 
     paindoras_box = Paindora(screamer, shouter, classifier, sensors, delay)

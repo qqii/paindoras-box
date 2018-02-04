@@ -23,7 +23,7 @@ class Scream:
             print(os.listdir(emotion), f)
             self.mixer.music.load(emotion + "/" + f)
             self.mixer.music.play()
-            self.shouter.shout(re.split("\.", f)[0])
+            #self.shouter.shout(re.split("\.", f)[0])
 
     def scream(self, music="sound/tone.wav"):
         if not self.mixer.music.get_busy():

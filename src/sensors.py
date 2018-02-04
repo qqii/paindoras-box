@@ -5,7 +5,7 @@ from envirophat import light, motion, weather, leds
 class Sensors:
     def __init__(self):
         print("Initialising Sensors")
-        leds.on()
+#        leds.on()
 
     def acceleration(self):
         return motion.accelerometer()

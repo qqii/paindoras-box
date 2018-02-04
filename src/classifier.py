@@ -37,6 +37,7 @@ class Classifier:
 
     def classify(self, data):
         if self.classifier == None:
+            print("Training Classifier")
             shaking_data = numpy.load("training_data_shaking.npy")
             shaking_length = shaking_data.shape[0]
             shaking_labels = numpy.full((shaking_length, 1), 1)
@@ -81,9 +82,9 @@ if __name__ == "__main__":
             print(classifier.classify(data))
         else:
            print("Usage:")
-           print("\t./{} train (shaking|still)".format(sys.argv[0]))
-           print("\t./{} classify x y z".format(sys.argv[0]))
+           print("\t{} train (shaking|still)".format(sys.argv[0]))
+           print("\t{} classify x y z".format(sys.argv[0]))
     except IndexError:
         print("Usage:")
-        print("\t./{} train (shaking|still)".format(sys.argv[0]))
-        print("\t./{} classify x y z".format(sys.argv[0]))
+        print("\t{} train (shaking|still)".format(sys.argv[0]))
+        print("\t{} classify x y z".format(sys.argv[0]))

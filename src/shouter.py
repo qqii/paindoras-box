@@ -7,6 +7,7 @@ from collections import deque
 
 class Shouter:
     def __init__(self):
+        print("Loading Twitter")
         # get api
         secret = {}
         # consumer_key = "...", etc

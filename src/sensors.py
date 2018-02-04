@@ -4,7 +4,8 @@ from envirophat import light, motion, weather, leds
 
 class Sensors:
     def __init__(self):
-        pass
+        print("Initialising Sensors")
+        leds.on()
 
     def acceleration(self):
         return motion.accelerometer()
@@ -21,9 +22,11 @@ if __name__ == "__main__":
     try:
         delay = float(sys.argv[1])
         while True:
-            print("acceleration = {}\tlight = {}", sensors.acceleration(), sensors.light())
-            os.sleep(delay)
-    except ValueError:
-        print("Usage: ./{} (delay)".format(sys.argv[0]))
+            print("acceleration = {}\tlight = {}".format(sensors.acceleration(), sensors.light()))
+            time.sleep(delay)
+    except (ValueError, IndexError):
+        print("Usage: {} (delay)".format(sys.argv[0]))
     except KeyboardInterrupt:
         pass
+    finally:
+        leds.off()

@@ -4,6 +4,10 @@ import os
 import numpy
 from sklearn.naive_bayes import GaussianNB
 
+def calculate_jerk(accel1, accel2, delta_t):
+    pass
+    
+
 class Classifier:
     light_threshold = 100
 

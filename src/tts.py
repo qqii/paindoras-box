@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-from gtts import gTTS
 from scream import Scream
+from gtts import gTTS
 import re#eeeeeeeeeeeeeee normie get out of my python script
 import os
 
@@ -20,11 +20,7 @@ class TTS:
             if not word in self.words:
                 tts = gTTS(word, lang)
                 tts.save("words/" + word + ".mp3")
-            self.screamer.mixer.music.set_volume(0.5)
-            self.screamer.scream(music="words/" + word + ".mp3")
-            while self.screamer.mixer.music.get_busy():
-                continue
-
+            self.screamer.speach(self.screamer.mixer.Sound("words/" + word + ".mp3"))
 
 if __name__ == "__main__":
     tts = TTS()

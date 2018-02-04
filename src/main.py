@@ -16,23 +16,25 @@ class Paindora:
         self.classifier = classifier
         self.sensors = sensors
         self.delay = delay
+        self.previous_accel = numpy.array([0,0,0])
 
     def start(self):
         try:
             while True:
                 x, y, z = self.sensors.acceleration()
-                light = self.sensors.light()
+                # light = self.sensors.light()
 
-                pain = False
-                pain |= light > self.classifier.light_threshold
-                print("Pain after light is", pain)
-                temp_array = numpy.array([x,y,z]) 
-                if self.classifier.classify(temp_array.reshape(1, -1)) == [1]:
-                    pain = True
-                print("Pain after motion is", pain)
-                if pain:
-                    self.screamer.scream()
-                    #self.shouter.shout("I'm in pain")
+                # pain = False
+                # pain |= light > self.classifier.light_threshold
+                # print("Pain after light is", pain)
+                temp_array = numpy.array([x,y,z])
+                print(classifier.calculate_jerk(temp_array, previous_accel, delay))
+                #if self.classifier.classify(temp_array.reshape(1, -1)) == [1]:
+                #    pain = True
+                #print("Pain after motion is", pain)
+                #if pain:
+                #    self.screamer.scream()
+                #    #self.shouter.shout("I'm in pain")
 
                 time.sleep(self.delay)
         except KeyboardInterrupt:

@@ -61,10 +61,11 @@ Tweets a message to [@robot_screaming](https://twitter.com/robot_screaming).
 ```
 Usage:
   ./classifier.py train (shaking|still)
-  ./classifier.py classify x y z
+  ./classifier.py classify x
 ```
+where x is a jerk
 
-Currently classifies acceleration data into the class "violent" and "non violent".
+Currently classifies acceleration data into the class "violent" and "non violent" using a naive bayes classifier based on the jerk of the box at a given time.
 
 ### `sensors.py`
 

@@ -8,8 +8,8 @@ from scream import Scream
 def main():
     screamer = Scream()
     tts = gTTS(text='Good morning', lang='en')
-    tts.save("sound/good.wav")
-    screamer.scream(music="sound/good.wav")
+    tts.save("sound/good.mp3")
+    screamer.scream(music="sound/good.mp3")
 
 
 

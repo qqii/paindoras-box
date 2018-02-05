@@ -4,6 +4,7 @@ A box that feels pain, a 24 hour hackathon project.
 
 * bees MAKE-ATHON 2018
 
+* Video [here](https://www.youtube.com/watch?v=zILSPt83rd8)
 ## Getting Started
 
 ### Hardware

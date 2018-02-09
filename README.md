@@ -25,7 +25,8 @@ A box that feels pain, a 24 hour hackathon project.
 
 ### Libraries
 
-1. `./install.sh` (`curl https://get.pimoroni.com/envirophat > install.sh`)
+1. `curl https://get.pimoroni.com/envirophat > install.sh`
+1. `./install.sh`
 1. `sudo apt-get install python3-numpy` (already installed)
 1. `sudo apt-get install python3-pygame` (already installed)
 1. `pip3 install sklearn`

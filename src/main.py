@@ -43,8 +43,8 @@ class Paindora:
                     print("push")
                     self.screamer.emote("push")
                     pain = True
-                if pain:
-                    self.screamer.scream()
+                if pain and randint(0,200) == 1:
+                    self.screamer.scream("scream/aaaa.wav")
                 if randint(0, 100) == 1:
                     print("sad")
                     self.screamer.emote("sad") 
